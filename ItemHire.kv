@@ -1,0 +1,100 @@
+BoxLayout:
+    # this layout has an id so we can check if it is the parent of the popup - below
+    id: mainBox
+    Popup:
+        id: popup
+        # uncomment the line below for a popup that's not full screen/window
+        # size_hint: (.7, .7)
+        title: "Add Item "
+        on_parent:
+            if self.parent == mainBox: self.parent.remove_widget(self)
+        BoxLayout:
+            # layout for input fields and action buttons
+            id: inputs
+            orientation: 'vertical'
+            Label:
+                text: 'Item Name: '
+                size_hint_y: None
+                height: '48dp'
+            TextInput:
+                id: addedName
+                value: ''
+                size_hint_y: None
+                height: '48dp'
+                # the next two lines make it so that pressing Tab moves the cursor
+                # to the next input field instead of entering the Tab character
+                multiline: False
+                write_tab: False
+            Label:
+                text: 'Description: '
+                size_hint_y: None
+                height: '48dp'
+            TextInput:
+                id: addedDesc
+                value: ''
+                size_hint_y: None
+                height: '48dp'
+                multiline: False
+                write_tab: False
+            Label:
+                text: 'Price Per Day: '
+                size_hint_y: None
+                height: '48dp'
+            TextInput:
+                id: addedNumber
+                value: ''
+                size_hint_y: None
+                height: '48dp'
+                multiline: False
+                write_tab: False
+            Button:
+
+                text: 'Save Entry'
+                on_release: app.press_save(addedName.text, addedDesc.text, addedNumber.text)
+            Button:
+                text: 'Cancel'
+                on_release: app.press_cancel()
+            Label:
+                # this is a different Label than the main GUI screen,
+                # but uses the same string data
+                text: app.status_text
+
+    #outside of popup
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.3
+                Button:
+                    id: addButton
+                    text: 'List items'
+                    on_release: app.create_entry_bottons()
+                Button:
+                    id: addButton2
+                    text: 'Hire items'
+                    on_release: app.hire_item()
+                Button:
+                    id: addButton3
+                    text: 'Return items'
+                    on_release: app.return_item()
+
+                Button:
+                    id: addButton5
+                    text: 'Add New Entry'
+                    on_release: app.press_add()
+
+                Button:
+                    id: addButton5
+                    text: 'Exit'
+                    on_release: app.exit()
+            GridLayout:
+                # this layout is populated with (button) widgets in app code
+                id: entriesBox
+                cols: 2
+
+                orientation: 'vertical'
+        Label:
+            size_hint_y: 0.2
+            text: app.status_text
